@@ -1,0 +1,123 @@
+<h2 mat-dialog-title>Signup</h2>
+<form [formGroup]="signUpForm">
+  <mat-dialog-content class="mat-typography">
+    <div class="sign-up-form">
+      <div class="sign-up-details">
+        <mat-form-field appearance="legacy">
+          <mat-label>Mobile number</mat-label>
+          <input
+            type="number"
+            matInput
+            placeholder=""
+            formControlName="phoneNumber"
+          />
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="phoneNumber.invalid"
+            >Not a valid phone number</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <mat-label>Enter Email</mat-label>
+          <input type="email" matInput placeholder="" formControlName="email" />
+          <mat-icon matSuffix>mail</mat-icon>
+          <mat-error *ngIf="email.invalid">Not a valid email</mat-error>
+        </mat-form-field>
+
+        <ng-container *ngIf="showSignupDetails">
+          <mat-form-field appearance="legacy">
+            <mat-label>Enter OTP</mat-label>
+            <input
+              type="number"
+              matInput
+              placeholder=""
+              formControlName="otp"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="doOtpCall()"
+              matTooltip="Resend otp?"
+            >
+              <mat-icon>
+                send_to_mobile
+              </mat-icon>
+            </button>
+            <mat-error *ngIf="formValidatorService.isInvalid(otp)"
+              >Wrong verification code</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Enter first name</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder=""
+              formControlName="firstName"
+            />
+            <mat-error *ngIf="firstName.invalid">Not a valid name</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Enter last name</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder=""
+              formControlName="lastName"
+            />
+            <mat-error *ngIf="lastName.invalid">Not a valid name</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Set password</mat-label>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              placeholder=""
+              formControlName="password"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword"
+            >
+              <mat-icon>{{
+                hidePassword ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+            <mat-error *ngIf="formValidatorService.isInvalid(password)"
+              >Not a valid password</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button cdkFocusInitial (click)="showLoginForm()">
+      Existing User? Login
+    </button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      *ngIf="showContinueBtn"
+      (click)="sendOtp()"
+    >
+      Continue
+    </button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      *ngIf="showSignupDetails"
+      (click)="onSubmit()"
+    >
+      Signup
+    </button>
+  </mat-dialog-actions>
+</form>

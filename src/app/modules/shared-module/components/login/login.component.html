@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Login</h2>
+<form [formGroup]="loginForm">
+  <mat-dialog-content class="mat-typography">
+    <div class="login-form">
+      <div class="login-details">
+        <fieldset>
+          <mat-form-field appearance="legacy">
+            <mat-label>Enter Mobile number</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder=""
+              formControlName="phoneNumber"
+            />
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="phoneNumber.invalid">Not a valid phone number</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy" *ngIf="showOtp">
+            <mat-label>Enter OTP</mat-label>
+            <input
+              matInput
+              type="number"
+              placeholder=""
+              formControlName="otp"
+              maxlength="4"
+              max="9999"
+              min="0000"
+            />
+            <mat-error *ngIf="formValidatorService.isInvalid(otp)">You must enter otp</mat-error>
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="doOtpCall()"
+              matTooltip="Resend otp?"
+            >
+              <mat-icon>
+                send_to_mobile
+              </mat-icon>
+            </button>
+          </mat-form-field>
+        </fieldset>
+
+
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      *ngIf="!showOtp"
+      mat-raised-button
+      color="primary"
+      [disabled]="phoneNumber.invalid"
+      (click)="doOtpCall()"
+    >
+      Send OTP
+    </button>
+    <button
+      *ngIf="showLoginButton"
+      mat-raised-button
+      color="primary"
+      cdkFocusInitial
+      type="submit"
+      [disabled]="loginForm.invalid"
+      (click)="onSubmit()"
+    >
+      Login
+    </button>
+  </mat-dialog-actions>
+</form>
+<h3>
+  <a class="sign-up-link" (click)="openSignUp()"
+    >New to {{ applicationName }}? Create an account</a
+  >
+</h3>
